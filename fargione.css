@@ -1,0 +1,180 @@
+/* Normalize */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, figure, form, fieldset, input, p, blockquote, th, td, legend {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+    font-family: 'Georgia', serif;
+}
+
+h1 { 
+	font-size: 2.5em;
+	font-family: 'Bevan','Bangers', serif;
+	color: #525252;
+}
+
+#main-wrapper{
+    width: 1200px;
+	margin-left: auto; 
+	margin-right:auto;
+}
+
+#dashboard{
+	display: inline;
+	min-width: 100%;
+}
+
+#settings {
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+	/*margin-left: 0;
+	margin-right: auto;*/
+	width: 500px;
+	float: left;
+}
+#settings a {
+    color: #000;
+    font-size: 12px;
+    padding: 5px;
+    background: #e2e2e2;
+    cursor: pointer;
+    margin-right: 3px;
+	border-radius: 3px;
+}
+#settings a:last-child {
+    margin-right: 5px;
+}
+#settings a.TAX { background: #895881; color: #fff; }
+#settings a.VRR { background: #ED7C31; color: #fff; }
+#settings a.ST { background: #82A5C0; color: #fff; }
+#settings a.S1 { background: #6E9E75; color: #fff; }
+#settings a.S2 { background: #00BBD6; color: #fff; }
+#settings a.S3 { background: #e25f82; color: #fff; }
+#settings a.S4 { background: #be1932; color: #fff; }
+
+#sliders{
+	width: 700px;
+	/*margin-left: auto;
+	margin-right: 0;*/
+	float: right;
+}
+
+#sliders .setters{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.sliderelement{
+	display: inline;
+	width: 300px:
+}
+
+#graphics {
+	width: 100%;
+	/*display: inline;*/
+}
+
+#plot1 {
+	float: left;
+}
+#plot2 {
+	float: right;
+}
+
+
+            
+.container {
+  width: 100%; 
+  position: relative;  
+  left: 10px;
+  right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+annotation {
+  font: 10px Georgia, serif;
+}
+
+
+.bar rect {
+  fill: #682200;
+  opacity: .75;
+  shape-rendering: crispEdges;
+}
+
+.bar text {
+  fill: #fff;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 1;
+}
+
+path  {
+    stroke: #682200;
+    stroke-width: 3;
+    fill: none;
+}
+
+.quantile  {
+    stroke: #525252;
+	opacity: .75;
+    stroke-width: .0;
+    fill: none;
+}
+
+path.current, path.highlight.current {
+    stroke: #000;
+    stroke-width: 1.7;
+	fill: steelblue;
+}
+
+.line2  {
+    stroke: gray;
+    stroke-width: .5;
+	fill: none;
+	opacity: .5;
+}
+
+.top  {
+    stroke: red;
+    stroke-width: 1;
+	fill: none;
+	opacity: .75;
+}
+ 
+line {
+    stroke: black;
+}
+
+circle  {
+    stroke: gray;
+    stroke-width: 1;
+	opacity: .9;
+}
+
+.year_label {
+    color: #808080;
+    font-size: 5em;
+    opacity: 0.5;
+}
+
+#cite { 
+	font-size: 0.8em; 
+	text-align: right; 
+	margin-top:10px; 
+	padding-bottom: 20px;
+}
+#cite a { 
+	background: #525252; 
+	text-decoration: none; 
+	color: #fff; 
+	padding-left: 1px;
+	padding-right: 1px;
+}
