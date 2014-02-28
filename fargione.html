@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>Chance and the deterministic concentration of wealth</title>
+    <script type="text/javascript" src="fargione.js"></script>
+	<script type="text/javascript" src="fsim.js"></script>
+	<script type="text/javascript" src="graphics.js"></script>	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="fargione.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">	
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Bevan|Bangers">
+  </head>
+  <body>
+	<div id="main-wrapper">
+		<div id="content">
+		
+			<h1>Chance and the <span style="color: #FCACAC;">deterministic</span> concentration of wealth</h1>
+		
+			<div id="dashboard">
+				<div id="settings">        
+					<a id="TAX">Taxes</a>
+					<a id="VRR">Add Crisis</a>
+					<a id="ST">Simulation Time</a>
+					<a id="S1">nn</a>
+					<a id="S2">nn</a>
+					<a id="S3">nn</a>
+					<a id="S4">nn</a>
+				</div><!-- @end #settings -->
+		
+				<div id="sliders"> 
+					<div class="sliderelement">
+						<table  width="100%">
+							<tr>
+								<td width="20%">
+									<div id="label">Population size</div>
+								</td>
+								<td width="10%">
+									<div id="Populationsize">1000</div>
+								</td>
+								<td>
+									<div id="slider1"></div>
+								</td>
+							</tr>
+						</table>			
+					</div>
+					<!--<div class="sliderelement">
+						<div id="label">Label2</div>
+						<div id="slider2"></div>
+					</div>
+					<div class="sliderelement">
+						<div id="label">Label3</div>
+						<div id="slider3"></div>
+					</div>					-->
+				</div>
+			</div><!-- @end #dashboard -->
+
+			</br>
+			<div id="option">
+				<input name="sortButton" 
+							 type="button" 
+							value="Sort" 
+							onclick="sortBubbles()" />
+			</div>
+			<div id="graphics">
+				<div id="plot5">
+				</div>
+				<div id="plot4">
+					<div id="explanation">
+						<h2>Share of the total assets from the poorest to the richest 10% of the economy</h2>
+					</div>
+				</div>
+				<div id="plot1">
+				</div>
+				<div id="plot2">
+				</div>
+				<div id="plot3">
+					<h3>Simulationsjahre: <span id="slidertext">0</span></h3>
+					<div id="slider" style="width: 700px; margin: 5px; margin-bottom: 10px"></div>
+				</div>
+			</div>
+		</div>
+	
+	<div id="container" class="container">
+	<div id="cite">Source: <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0020728#s4">J.E. Fargione, Entrepeneurs, chance and the deterministic concentration of wealth, PLOS One 2011</a>; Graphic by: <a href="https://blog.cadux.de">André Carls</a></div>
+	</div>
+	
+	<script type="text/javascript">		
+		$( "#slider1" ).slider();
+		$( "#slider2" ).slider();
+		$( "#slider3" ).slider();
+		scrformat = 16/9;
+		var io = new Init();
+		
+		textvalue = io.dt + " Simulationsende: " + (io.t0+io.dt) ;
+		d3.select('#slidertext').text(textvalue);
+		$( "#slider" ).slider();	//Create the slider object
+		var s = $( "#slider" ).slider( "widget" );	// Get the slider object and save it into a variable
+		s.slider( "option", "step", 1 )	//Use the slider object
+			.slider( "option", "min",  1 )
+			.slider( "option", "max",  io.dt )
+			.slider( "value", io.dt )
+			.slider("enable")
+			.on( "slide", function(event){updateText(s)} )
+			.on( "slidestop", function(event){updateDashboard(s)} );
+			
+		var s1 = $( "#slider1" ).slider( "widget" );	// Get the slider object and save it into a variable
+		s1.slider( "option", "step", 1e3 )	//Use the slider object
+			.slider( "option", "min",  1e3 )
+			.slider( "option", "max",  1e5 )
+			.slider( "value", io.nIndividuals )
+			.slider("disable")
+			.on( "slide", function(event){updateText(s)} )
+			.on( "slidestop", function(event){updateSim(s1, io, res)} );
+		
+		var res = new Sim(io);	// Initialize the simulation object
+		res.calc(io);			// Do the simulation
+		plotStreamGraph("#plot4", io, res);
+		plotShare("#plot1", io, res, 700, 700/scrformat);
+		plotMeanAssetGrowth("#plot2", io, res, 400, 400);
+		//var hist = plotHistogram("#plot3", io, res, 700, 400);
+		s.slider("enable")
+		s1.slider("enable")
+		
+		var o = new PlotHist("#plot3");	// Create a new Histogram plot object
+		o.plot(io, res.assets);
+		
+		var bubble = new PlotBubbleTest("#plot5",900,500);	// Create a new Histogram plot object
+		bubble.plot(io, res);		
+		
+		function updateText(s){
+		//	//debugger;
+		//	d3.selectAll("svg").remove();
+		//	simYears = s.slider("option","value");
+		//	textvalue = simYears + " Simulationsende: " + (startYear+simYears) ;
+		//	d3.select('#slidertext').text(textvalue);
+		//	d3.select('svg').text(textvalue);
+		}
+		
+		function updateDashboard(s){
+			val = s.slider("option","value")
+			o.update(val);
+		}
+
+		function sortBubbles (){
+			svg = d3.select("#plot5").select("svg");
+			circles = svg.selectAll("circle");
+			circles.attr("cx", function(d){return i*10;})
+				.attr("cy", function(d){return 500-i;});
+		}
+			
+		//debugger;
+		//
+
+	</script>	
+  </body>
+</html>
